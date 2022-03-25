@@ -1,4 +1,5 @@
 #include "integracio.h"
+#include "utils.h"
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
@@ -46,36 +47,20 @@ double integrar_simpson_compost(double (*f)(double*,double),double* args,int num
    
    return pas*total/3;                                //Multipliquem el total pel pas/3 i en retornem els resultats.
 }
-/*
-double integrar_gauss_legendre(double (*f)(double*),int numArgs, double interval_min, double interval_max, int n)
-{
 
-	double x[n]; //Guardarem els valors de "x" en un array.
-   double w[n]; //...igual que els de "w".
-   
-   else if(n==2)
-   {
-   	x={};
-   	w={1.,1.};
+double integrar_gauss_legendre(double (*f)(double), double a, double b, int n)
+{
+   double fx,xi,wi,mid_length, mid;
+   fx = 0;
+   mid_length = (b-a)/2;
+   mid = (a+b)/2;
+
+   for (int j=1; j<=n; j++){
+      xi = newton(n,j);
+      wi = weights(n, xi);
+
+      fx += wi*f(mid_length * xi + mid);
    }
-   else if(n==3)
-   {
-   	x={};
-   	w={};
-   }
-   else if(n==4)
-   {
-   	x={};
-   	w={};
-   }
-   else if(n==5)
-   {
-   	x={};
-   	w={};
-   }
-   else                                           // Control d'errors.
-	{
-		fprintf(stderr, "ERROR: integrar_gauss_legendre necessita valor de 'n' enter major o igual a 2 i menor o igual a 5.\n\n");
-		return -1;
-   }
-}*/
+
+   return mid_length * fx;
+}
