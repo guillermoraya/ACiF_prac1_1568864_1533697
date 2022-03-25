@@ -2,6 +2,7 @@
 #include "utils.h"
 #include <string.h>
 #include <stdio.h>
+#define _USE_MATH_DEFINES
 #include <math.h>
 
 double integrar_trapezi_compost(double (*f)(double*,double),double* args,int numArgs, double a, double b, int n)
@@ -63,4 +64,15 @@ double integrar_gauss_legendre(double (*f)(double), double a, double b, int n)
    }
 
    return mid_length * fx;
+}
+
+double integrar_gauss_chebyshev(double (*f)(double), int n, double a, double b) {
+   double xi, fx;
+
+   for (int i=1; i<=n; i++) {
+      xi = cos(((2*i-1)*M_PI)/(2*n));
+      fx += f(((xi + 1)*(b-a))/2 + a) * pow((1-xi*xi), 1/2);
+   }
+
+   return ((M_PI*(b-a))/(2*n)) * fx;
 }
