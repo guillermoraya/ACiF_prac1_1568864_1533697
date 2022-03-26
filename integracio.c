@@ -49,6 +49,42 @@ double integrar_simpson_compost(double (*f)(double*,double),double* args,int num
    return pas*total/3;                                //Multipliquem el total pel pas/3 i en retornem els resultats.
 }
 
+double P(double x, int n) {
+
+    if (n == 0) return 1;
+    else if (n == 1) return x;
+    else {
+        return ((2*n-1)*x*P(x,n-1) - (n-1)*P(x,n-2))/n;
+    }
+}
+
+double dP(double x, int n) {
+    return (n/(x*x-1)) * (x*P(x,n) - P(x,n-1));
+}
+
+double newton(int n, int i) {
+
+    double x0, xn, tol;
+    x0 = cos(M_PI * (i-1/4)/(n+1/4));
+    xn = INFINITY;
+    tol = 1e-8;
+
+    while(fabs(xn - x0) < tol) {
+        xn = x0 - P(x0,n)/dP(x0,n);
+        x0 = xn;
+    }
+
+    return xn;
+}
+
+double weight(int n, double xi) {
+    
+    double dPi;
+    dPi = dP(xi, n);
+
+    return 2/((1-xi*xi)*(dPi*dPi));
+}
+
 double integrar_gauss_legendre(double (*f)(double), double a, double b, int n)
 {
    double fx,xi,wi,mid_length, mid;
