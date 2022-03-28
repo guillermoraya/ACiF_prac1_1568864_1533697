@@ -1,5 +1,4 @@
 #include "integracio.h"
-#include "utils.h"
 #include <string.h>
 #include <stdio.h>
 #define _USE_MATH_DEFINES
@@ -99,7 +98,7 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args, int n
 
     for (int j=1; j<=n; j++){
         xi = newton(n,j);
-        wi = weights(n, xi);
+        wi = weight(n, xi);
 
         fx += wi*f(args, mid_length * xi + mid);
     }
