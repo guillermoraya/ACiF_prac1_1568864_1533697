@@ -85,8 +85,12 @@ double weight(int n, double xi) {
     return 2/((1-xi*xi)*(dPi*dPi));
 }
 
-double integrar_gauss_legendre(double (*f)(double), double a, double b, int n)
-{
+double integrar_gauss_legendre(double (*f)(double*, double), double* args, int numArgs,double a, double b, int n)
+{   
+   if(n = 2 && n == 5 && n == 10) {
+       fprintf(stderr, "The n value is incorrect, it only accepts 2, 5 or 10. \n");
+       exit(-1);
+   }
    double fx,xi,wi,mid_length, mid;
    fx = 0;
    mid_length = (b-a)/2;
@@ -96,18 +100,18 @@ double integrar_gauss_legendre(double (*f)(double), double a, double b, int n)
       xi = newton(n,j);
       wi = weights(n, xi);
 
-      fx += wi*f(mid_length * xi + mid);
+      fx += wi*f(args, mid_length * xi + mid);
    }
 
    return mid_length * fx;
 }
 
-double integrar_gauss_chebyshev(double (*f)(double), int n, double a, double b) {
+double integrar_gauss_chebyshev(double (*f)(double*, double), double* args, int numArgs, double a, double b, int n) {
    double xi, fx;
 
    for (int i=1; i<=n; i++) {
       xi = cos(((2*i-1)*M_PI)/(2*n));
-      fx += f(((xi + 1)*(b-a))/2 + a) * pow((1-xi*xi), 1/2);
+      fx += f(args, ((xi + 1)*(b-a))/2 + a) * pow((1-xi*xi), 1/2);
    }
 
    return ((M_PI*(b-a))/(2*n)) * fx;

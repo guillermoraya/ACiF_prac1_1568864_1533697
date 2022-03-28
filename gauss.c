@@ -53,5 +53,7 @@ int main(int argc, char **argv)
 	printf("Càlcul de la probabilitat acumulada:\n");
 	printf("	-Mètode trapezi compost (n=%d): %.8f \n",n,integrar_trapezi_compost(N,args,2,mu,x,n));
 	printf("	-Mètode Simpson compost (n=%d): %.8f \n",n,integrar_simpson_compost(N,args,2,mu,x,n));
+	printf("    -Mètode de Gauss-Legendre (n=%d): %.8f \n", n, integrar_gauss_legendre(N,args,2,mu,x,n));
+	printf("    -Mètode de Gauss-Legendre (n=%d): %.8f \n", n, integrar_gauss_chebyshev(N,args,2,mu,x,n));
 	return 0;
 }

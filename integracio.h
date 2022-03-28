@@ -12,8 +12,8 @@ double dP(double x, int n);
 double newton(int n, int i);
 double weights(int n, double xi);
 
-double integrar_gauss_legendre(double (*f)(double), double a, double b, int n);
-double integrar_gauss_chebyshev(double (*f)(double), int n);
+double integrar_gauss_legendre(double (*f)(double*, double), double *args, int numArgs, double a, double b, int n);
+double integrar_gauss_chebyshev(double (*f)(double*, double), double *args, int numArgs, double a, double b, int n);
 
 
 #endif
