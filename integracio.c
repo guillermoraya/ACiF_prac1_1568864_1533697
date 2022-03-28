@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <math.h>
 
-double integrar_trapezi_compost(double (*f)(double*,double),double* args,int numArgs, double a, double b, int n)
+double integrar_trapezi_compost(double (*f)(double*,double),double* args, double a, double b, int n)
 {
 	if (n < 2)                                           // Control d'errors.
 	{
@@ -22,7 +22,7 @@ double integrar_trapezi_compost(double (*f)(double*,double),double* args,int num
    return sumatori*pas;                                //Multipliquem el sumatori pel pas i en retornem els resultats.
 }
 
-double integrar_simpson_compost(double (*f)(double*,double),double* args,int numArgs, double a, double b, int n)
+double integrar_simpson_compost(double (*f)(double*,double),double* args, double a, double b, int n)
 {
 	if (n < 2)                                           // Control d'errors.
 	{

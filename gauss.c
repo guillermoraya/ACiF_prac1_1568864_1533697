@@ -47,10 +47,27 @@ int main(int argc, char **argv)
 	printf("PARÀMETRES:\n");
 	printf("	Mitjana:             %.8f\n",mu);
 	printf("	Desviació estàndard: %.8f\n",sigma);
-	printf("	Valor d'x:           %.8f\n\n",x);
+	printf("	Valor d'x:           %.8f\n",x);
+	printf("	Nº d'intervals:      %d\n\n",n);
 
-	printf("Càlcul de la probabilitat acumulada:\n");
-	printf("	-Mètode trapezi compost (n=%d): %.8f \n",n,integrar_trapezi_compost(N,args,2,mu,x,n));
-	printf("	-Mètode Simpson compost (n=%d): %.8f \n",n,integrar_simpson_compost(N,args,2,mu,x,n));
+	printf("Càlcul de la probabilitat acumulada de x=%.8f:\n",x);
+	// We'll print the results of calling our integration functions.
+	// The arguments passed to each integration function are:
+		// N   : the gaussian probability density function, as implemented above our main in this file.
+		// args: array of double which contains the arguments we want to pass to "N".
+				// In this case, args contains:
+					// mu   : desired mean of the gaussian distribution.
+					// sigma: desired standard deviation of the gaussian distribution.
+		// mu  : first (leftmost) point of the interval over which we want to integrate.
+		// x   : the last (rightmost) of the interval over which we want to integrate.
+		// n   : the number of intervals to use for the integration method.
+		
+	// Note that we print 0.5+ the results of the integration.
+	// That is because we are calculating the cumulative probability of x for x>mu.
+	// Since the cumulative probability of the mean is 0.5, the cumulative probabilty of x>mu
+	// Would be 0.5+Integral(probabilityDensityFunction(x)[from mu to x]).
+	// (see this assignment's documentation for more details).
+	printf("	-Mètode trapezi compost (n=%d): %.8f \n",n,0.5+integrar_trapezi_compost(N,args,mu,x,n));
+	printf("	-Mètode Simpson compost (n=%d): %.8f \n",n,0.5+integrar_simpson_compost(N,args,mu,x,n));
 	return 0;
 }
