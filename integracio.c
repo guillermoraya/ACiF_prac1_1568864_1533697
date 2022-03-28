@@ -87,23 +87,24 @@ double weight(int n, double xi) {
 
 double integrar_gauss_legendre(double (*f)(double*, double), double* args, int numArgs,double a, double b, int n)
 {   
-   if(n = 2 && n == 5 && n == 10) {
-       fprintf(stderr, "The n value is incorrect, it only accepts 2, 5 or 10. \n");
-       exit(-1);
-   }
-   double fx,xi,wi,mid_length, mid;
-   fx = 0;
-   mid_length = (b-a)/2;
-   mid = (a+b)/2;
+    if(n == 2 && n == 5 && n == 10) {
+        fprintf(stderr, "The n value is incorrect, it only accepts 2, 5 or 10. \n");
+        return -1;
+    }
 
-   for (int j=1; j<=n; j++){
-      xi = newton(n,j);
-      wi = weights(n, xi);
+    double fx,xi,wi,mid_length, mid;
+    fx = 0.;
+    mid_length = (b-a)/2;
+    mid = (a+b)/2;
 
-      fx += wi*f(args, mid_length * xi + mid);
-   }
+    for (int j=1; j<=n; j++){
+        xi = newton(n,j);
+        wi = weights(n, xi);
 
-   return mid_length * fx;
+        fx += wi*f(args, mid_length * xi + mid);
+    }
+
+    return mid_length * fx;
 }
 
 double integrar_gauss_chebyshev(double (*f)(double*, double), double* args, int numArgs, double a, double b, int n) {
