@@ -45,24 +45,52 @@ int main(int argc, char **argv)
 	{
 		n = 1000000;
 	}
-  
+  	// Let's obtain the of the arguments from command line.
+  	// Since the input is obtain in the char** format, we'll use the 'atof' function
+  	// to transform it into doubles (lookup the "atof" function for more information).
+  	
+  	// We shall remember that, as per the teacher's requests, the input of "gauss"'s main will be comprised of:
+  		// mu   : mean of our N (gaussian  probability distribution).
+		// sigma: standard deviation of our N (gaussian probability distribution).
+		// x    : value for which we intend to calculate the cumulative probability on a gaussian distribution
+		//        as defined by the values above.
 	double mu = atof(argv[1]);
 	double sigma = atof(argv[2]);
 	double x = atof(argv[3]);
 	
-	//We create the arguments array, called "args", in order to call our integration functions later.
-	double args[4]={mu,sigma};
+	// We create the arguments array, called "args", in order to call our integration functions later.
+	// Said arguments will be, respectively, mu and sigma (as defined above).
+	double args[2]={mu,sigma};
 	
+	// In order to get a more user-friendly interface, let's print out the values of the parameters 
+	// (and their meanings, in catalan).
 	printf("PARÀMETRES:\n");
 	printf("	Mitjana:             %.8f\n",mu);
 	printf("	Desviacio estandard: %.8f\n",sigma);
 	printf("	Valor d'x:           %.8f\n\n",x);
 
+	// And now, for the main course:
+	// We'll print the results of calling our integration functions.
+	// The arguments passed to each integration function are:
+		// N   : the gaussian probability density function, as implemented above our main in this file.
+		// args: array of arguments we want to pass to "N" (read comments above for more details).
+		// mu  : first (leftmost) point of the interval over which we want to integrate.
+		// x   : the last (rightmost) point of the interval over which we want to integrate.
+		// n   : the number of intervals to use for the integration method.
+		
+	// Note that we print 0.5+ the results of the integration.
+	// That is because we are calculating the cumulative probability of x for x>mu.
+	// Since the cumulative probability of the mean is 0.5, the cumulative probabilty of x>mu
+	// Would be 0.5+Integral(probabilityDensityFunction(x)[from mu to x]).
+	// (see this assignment's documentation for more details).
+	
 	printf("Càlcul de la probabilitat acumulada:\n");
-	printf("	-Metode trapezi compost (n=%d): %.8f \n",n,integrar_trapezi_compost(N,args,2,mu,x,n));
-	printf("	-Metode Simpson compost (n=%d): %.8f \n",n,integrar_simpson_compost(N,args,2,mu,x,n));
-	printf("     -Metode de Gauss-Legendre (n=%d): %.8f \n", n, integrar_gauss_legendre(N,df,args,2,mu,x,n));
-	printf("     -Metode de Gauss-Txebixev (n=%d): %.8f \n", n, integrar_gauss_chebyshev(N,args,2,mu,x,n));
+	printf("	-Metode trapezi compost   (n=%d): %.8f \n",n,0.5+integrar_trapezi_compost(N,args,mu,x,n));
+	printf("	-Metode Simpson compost   (n=%d): %.8f \n",n,0.5+integrar_simpson_compost(N,args,mu,x,n));
+	// TODO: Debug this. Its results don't correspond to our calculations... Something's off.
+	printf("	-Metode de Gauss-Txebixev (n=%d): %.8f \n", n,0.5+integrar_gauss_chebyshev(N,args,mu,x,n));
+	// TODO: Debug this. Calling gauss_legendre is shooting a "segmentation fault" error... And it shouldn't.
+	printf("	-Metode de Gauss-Legendre (n=%d): %.8f \n", n,0.5+integrar_gauss_legendre(N,df,args,mu,x,n));
 	
 	printf("P(x): %.8f\n", P(1, 1));
 	printf("dP(X): %.8f\n", dP(1, 1));
