@@ -58,18 +58,23 @@ double P(double x, int n) {
 }
 
 double dP(double x, int n) {
-    return (n/(x*x-1)) * (x*P(x,n) - P(x,n-1));
+
+    if(n==0) return 0;
+
+    else if (n==1) return 1;
+
+    else return (n/(x*x-1)) * (x*P(x,n) - P(x,n-1));
 }
 
-double newton(int n, int i) {
+double newton(int n, int i, double (*f)(double*, double), double (*df)(double*, double), double* args) {
 
     double x0, xn, tol;
     x0 = cos(M_PI * (i-1/4)/(n+1/4));
-    xn = INFINITY;
+    xn = 999999;
     tol = 1e-8;
 
-    while(fabs(xn - x0) < tol) {
-        xn = x0 - P(x0,n)/dP(x0,n);
+    while(fabs(xn - x0) > tol) {
+        xn = x0 - f(args,x0)/df(args,x0);
         x0 = xn;
     }
 
@@ -79,35 +84,39 @@ double newton(int n, int i) {
 double weight(int n, double xi) {
     
     double dPi;
-    dPi = dP(xi, n);
-
-    return 2/((1-xi*xi)*(dPi*dPi));
+    if(n==1) return 2;
+    else if(n==2) return 1;
+    else {
+        dPi = dP(xi, n);
+        return 2/((1-xi*xi)*(dPi*dPi));
+    }
 }
 
-double integrar_gauss_legendre(double (*f)(double*, double), double* args, int numArgs,double a, double b, int n)
+double integrar_gauss_legendre(double (*f)(double*, double), double (*df)(double*, double), double* args, int numArgs,double a, double b, int n)
 {   
-    if(n == 2 && n == 5 && n == 10) {
+    /*if(n != 2 && n != 5 && n != 10) {
         fprintf(stderr, "The n value is incorrect, it only accepts 2, 5 or 10. \n");
         return -1;
-    }
+    }*/
 
     double fx,xi,wi,mid_length, mid;
-    fx = 0.;
+    fx = 0;
     mid_length = (b-a)/2;
     mid = (a+b)/2;
 
     for (int j=1; j<=n; j++){
-        xi = newton(n,j);
+        xi = newton(n,j,f, df, args);
         wi = weight(n, xi);
 
         fx += wi*f(args, mid_length * xi + mid);
-    }
+    } 
 
     return mid_length * fx;
 }
 
 double integrar_gauss_chebyshev(double (*f)(double*, double), double* args, int numArgs, double a, double b, int n) {
    double xi, fx;
+   fx = 0;
 
    for (int i=1; i<=n; i++) {
       xi = cos(((2*i-1)*M_PI)/(2*n));
