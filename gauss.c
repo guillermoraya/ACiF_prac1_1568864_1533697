@@ -68,6 +68,8 @@ int main(int argc, char **argv)
 	printf("dP(X): %.8f\n", dP(1, 1));
 	printf("Newton: %.8f\n", newton(2, 1, N, df,args));
 	printf("Weights: %.8f\n", weight(1, 1));
+	printf("f: %.8f\n", N(args, 1));
+	printf("df: %.8f\n", df(args, 1));
 	
 	return 0;
 

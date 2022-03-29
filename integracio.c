@@ -70,7 +70,7 @@ double newton(int n, int i, double (*f)(double*, double), double (*df)(double*, 
 
     double x0, xn, tol;
     x0 = cos(M_PI * (i-1/4)/(n+1/4));
-    xn = 999999;
+    xn = 99999;
     tol = 1e-8;
 
     while(fabs(xn - x0) > tol) {
