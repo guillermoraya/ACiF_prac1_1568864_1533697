@@ -30,14 +30,6 @@ double N(double* arguments,double x){
 	return exp(exponent)/(sigma*sqrt(2*M_PI));
 }
 
-double df(double* arguments, double x){
-
-	double mu=arguments[0];
-	double sigma=arguments[1];
-	double exponent = -pow(x-mu,2)/(2*sigma*sigma);
-	return exp(exponent)*(-pow(x-mu,3)/(pow(sigma,3)*sqrt(2*M_PI)));
-}
-
 double f_1(double x){
 	return x*x/exp(x);
 }
@@ -100,7 +92,7 @@ int main(int argc, char **argv){
 	
 	// In order to get a more user-friendly interface, let's print out the values of the parameters 
 	// (and their meanings, in catalan).
-	printf("PARÀMETRES:\n");
+	printf("PARAMETRES:\n");
 	printf("	Mitjana:             %.8f\n",mu);
 	printf("	Desviacio estandard: %.8f\n",sigma);
 	printf("	Valor d'x:           %.8f\n\n",x);
@@ -120,7 +112,7 @@ int main(int argc, char **argv){
 	// Would be 0.5+Integral(probabilityDensityFunction(x)[from mu to x]).
 	// (see this assignment's documentation for more details).
 	
-	printf("Càlcul de la probabilitat acumulada:\n");
+	printf("Calcul de la probabilitat acumulada:\n");
 	printf("	-Metode trapezi compost   (n=%d): %.8f \n",n,0.5+integrar_trapezi_compost(N,args,mu,x,n));
 	printf("	-Metode Simpson compost   (n=%d): %.8f \n",n,0.5+integrar_simpson_compost(N,args,mu,x,n));
 	printf("	-Metode de Gauss-Txebixev (n=%d): %.8f \n", n,0.5+integrar_gauss_chebyshev(N,args,mu,x,n));

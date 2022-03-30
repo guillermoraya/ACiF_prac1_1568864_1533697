@@ -139,19 +139,21 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args,double
     mid = (a+b)/2;
 
     if(n==2) {
+
         double xi[2];
         double wi;
 
         xi[0] = -1/sqrt(3); xi[1] = 1/sqrt(3);
         wi = 1;
 
-        for (int i=0; i<=n; i++){
+        for (int i=0; i<2; i++){
             fx += wi*f(args, mid_length * xi[i] + mid);
         }
 
         return mid_length * fx;
     }
     else if (n==5) {
+
         double xi[5];
         double wi[5];
 
@@ -159,12 +161,13 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args,double
         xi[3] = -(1/3)*sqrt(5+2*sqrt(10/7)); xi[4] = (1/3)*sqrt(5+2*sqrt(10/7));
         wi[0] = 128/225; wi[1] = (322+13*sqrt(70))/900; wi[2] = wi[1]; wi[3] = (322-13*sqrt(70))/900; wi[4] = wi[3]; 
 
-        for (int i=0; i<=n; i++){
+        for (int i=0; i<5; i++){
             fx += wi[i]*f(args, mid_length * xi[i] + mid);
         }
 
         return mid_length * fx;
     } else {
+
         double xi[5];
         double wi[5];
 
@@ -172,7 +175,7 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args,double
         wi[0] = 0.295524255222263; wi[1] = 0.295524255222263; wi[2] = 0.269266832578992; wi[3] = 0.269266832578992;
         wi[4] = 0.219086123824010;
 
-        for (int i=0; i<=n; i++){
+        for (int i=0; i<5; i++){
             fx += wi[i]*f(args, mid_length * xi[i] + mid);
         }
 
