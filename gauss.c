@@ -125,16 +125,7 @@ int main(int argc, char **argv){
 	printf("	-Metode Simpson compost   (n=%d): %.8f \n",n,0.5+integrar_simpson_compost(N,args,mu,x,n));
 	printf("	-Metode de Gauss-Txebixev (n=%d): %.8f \n", n,0.5+integrar_gauss_chebyshev(N,args,mu,x,n));
 	// TODO: Debug the function below. Calling gauss_legendre is shooting a "segmentation fault" error... And it shouldn't.
-	/*printf("	-Metode de Gauss-Legendre (n=%d): %.8f \n", n,0.5+integrar_gauss_legendre(N,df,args,mu,x,n));*/
-	
-	printf("P(x): %.8f\n", P(1, 1));
-	printf("dP(X): %.8f\n", dP(1, 1));
-	printf("Newton: %.8f\n", newton(2, 1, N, df,args));
-	printf("Weights: %.8f\n", weight(1, 1));
-	printf("f: %.8f\n", N(args, 1));
-	printf("df: %.8f\n", df(args, 1));
-	
-	return 0;
+	printf("	-Metode de Gauss-Legendre (n=%d): %.8f \n", n,0.5+integrar_gauss_legendre(N,args,mu,x,n));
 
-	
+	return 0;	
 }

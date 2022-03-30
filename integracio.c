@@ -126,7 +126,7 @@ double weight(int n, double xi) {
     }
 }
 
-double integrar_gauss_legendre(double (*f)(double*, double), double (*df)(double*, double), double* args, int numArgs,double a, double b, int n)
+double integrar_gauss_legendre(double (*f)(double*, double), double* args,double a, double b, int n)
 {   
     if(n != 2 && n != 5 && n != 10) {
         fprintf(stderr, "The n value is incorrect, it only accepts 2, 5 or 10. \n");
