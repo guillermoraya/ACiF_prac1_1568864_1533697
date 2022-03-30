@@ -175,7 +175,8 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args,double
         wi[0] = 0.295524255222263; wi[1] = 0.295524255222263; wi[2] = 0.269266832578992; wi[3] = 0.269266832578992;
         wi[4] = 0.219086123824010;
 
-        for (int i=0; i<5; i++){
+        for (int i=0; i<5
+        ; i++){
             fx += wi[i]*f(args, mid_length * xi[i] + mid);
         }
 
