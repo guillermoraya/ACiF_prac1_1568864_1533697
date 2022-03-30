@@ -14,6 +14,7 @@ double weight(int n, double xi); // Calculates the gauss nodes
 
 double integrar_gauss_legendre(double (*f)(double*, double), double (*df)(double*, double), double *args, double a, double b, int n);
 double integrar_gauss_chebyshev(double (*f)(double*, double), double *args, double a, double b, int n);
+double chebyshev_node(int i,int n);
 
 
 #endif
