@@ -68,15 +68,22 @@ double dP(double x, int n) {
 
 double newton(int n, int i, double (*f)(double*, double), double (*df)(double*, double), double* args) {
 
-    double x0, xn, tol;
-    x0 = cos(M_PI * (i-1/4)/(n+1/4));
-    xn = 99999;
+
+    double xn_1, xn, tol;
+    xn = cos(M_PI * ((i-1/4)/(n+1/2)));
     tol = 1e-8;
 
-    while(fabs(xn - x0) > tol) {
-        xn = x0 - f(args,x0)/df(args,x0);
-        x0 = xn;
-    }
+    printf("n: %d, i: %d\n", n, i);
+    printf("x0: %8.f\n", xn);
+    do {
+        xn_1 = xn;
+        xn = xn_1 - P(xn_1,n)/dP(xn_1,n);
+        printf("xn: %8.f\n", xn);
+        printf("xn_1: %8.f\n", xn_1);
+        
+        printf("P: %8.f\n", P(xn_1,n));
+        printf("dP: %8.f\n", dP(xn_1,n));
+    } while(fabs(xn - xn_1) < tol);
 
     return xn;
 }
@@ -94,24 +101,56 @@ double weight(int n, double xi) {
 
 double integrar_gauss_legendre(double (*f)(double*, double), double (*df)(double*, double), double* args, int numArgs,double a, double b, int n)
 {   
-    /*if(n != 2 && n != 5 && n != 10) {
+    if(n != 2 && n != 5 && n != 10) {
         fprintf(stderr, "The n value is incorrect, it only accepts 2, 5 or 10. \n");
         return -1;
-    }*/
+    }
 
-    double fx,xi,wi,mid_length, mid;
+    double fx,mid_length, mid;
     fx = 0;
     mid_length = (b-a)/2;
     mid = (a+b)/2;
 
-    for (int j=1; j<=n; j++){
-        xi = newton(n,j,f, df, args);
-        wi = weight(n, xi);
+    if(n==2) {
+        double xi[2];
+        double wi;
 
-        fx += wi*f(args, mid_length * xi + mid);
-    } 
+        xi[0] = -1/sqrt(3); xi[1] = 1/sqrt(3);
+        wi = 1;
 
-    return mid_length * fx;
+        for (int i=0; i<=n; i++){
+            fx += wi*f(args, mid_length * xi[i] + mid);
+        }
+
+        return mid_length * fx;
+    }
+    else if (n==5) {
+        double xi[5];
+        double wi[5];
+
+        xi[0] = 0, xi[1] = -(1/3)*sqrt(5-2*sqrt(10/7)); xi[2] = (1/3)*sqrt(5-2*sqrt(10/7)); 
+        xi[3] = -(1/3)*sqrt(5+2*sqrt(10/7)); xi[4] = (1/3)*sqrt(5+2*sqrt(10/7));
+        wi[0] = 128/225; wi[1] = (322+13*sqrt(70))/900; wi[2] = wi[1]; wi[3] = (322-13*sqrt(70))/900; wi[4] = wi[3]; 
+
+        for (int i=0; i<=n; i++){
+            fx += wi[i]*f(args, mid_length * xi[i] + mid);
+        }
+
+        return mid_length * fx;
+    } else {
+        double xi[5];
+        double wi[5];
+
+        xi[0] = 0.148874; xi[1] =  -0.148874; xi[2] = 0.433395; xi[3] = -0.433395; xi[4] = 0.67941;
+        wi[0] = 0.295524255222263; wi[1] = 0.295524255222263; wi[2] = 0.269266832578992; wi[3] = 0.269266832578992;
+        wi[4] = 0.219086123824010;
+
+        for (int i=0; i<=n; i++){
+            fx += wi[i]*f(args, mid_length * xi[i] + mid);
+        }
+
+        return mid_length * fx;
+    }
 }
 
 double integrar_gauss_chebyshev(double (*f)(double*, double), double* args, int numArgs, double a, double b, int n) {
