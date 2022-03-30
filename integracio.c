@@ -4,8 +4,22 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-double integrar_trapezi_compost(double (*f)(double*,double),double* args,int numArgs, double a, double b, int n)
+double integrar_trapezi_compost(double (*f)(double*,double),double* args, double a, double b, int n)
 {
+	//This function implements the numerical integration of a function using
+	// the composite trapezoidal rule.
+	//Input:
+		// double (*f)(double*, double): function to integrate. It must be called 
+		//   with first a string of arguments, and then the variable to integrate.
+		// double* args: arguments to pass to the integrated function.
+		// double a: "leftmost" (most negative) limit of the integration interval.
+		// double b: "rightmost" (most positive) limit of the integration interval.
+		// int n: Number of intervals to use for calculations.
+	//Output:
+		// Result of the numerical calculation of the integral of the desired 
+		// function, with the established arguments, over the given interval, using 
+		// 'n' intervals.
+
 	if (n < 2)                                           // Control d'errors.
 	{
 		fprintf(stderr, "ERROR: integrar_trapezi_compost necessita valor de 'n' major o igual a 2.\n\n");
@@ -23,8 +37,21 @@ double integrar_trapezi_compost(double (*f)(double*,double),double* args,int num
    return sumatori*pas;                                //Multipliquem el sumatori pel pas i en retornem els resultats.
 }
 
-double integrar_simpson_compost(double (*f)(double*,double),double* args,int numArgs, double a, double b, int n)
+double integrar_simpson_compost(double (*f)(double*,double),double* args, double a, double b, int n)
 {
+	//This function implements the numerical integration of a function using
+	// the composite Simpson rule.
+	//Input:
+		// double (*f)(double*, double): function to integrate. It must be called 
+		//   with first a string of arguments, and then the variable to integrate.
+		// double* args: arguments to pass to the integrated function.
+		// double a: "leftmost" (most negative) limit of the integration interval.
+		// double b: "rightmost" (most positive) limit of the integration interval.
+		// int n: Number of intervals to use for calculations.
+	//Output:
+		// Result of the numerical calculation of the integral of the desired 
+		// function, with the established arguments, over the given interval, using 
+		// 'n' intervals.
 	if (n < 2)                                           // Control d'errors.
 	{
 		fprintf(stderr, "ERROR: integrar_simpson_compost necessita valor de 'n' major o igual a 2.\n\n");
@@ -66,7 +93,7 @@ double dP(double x, int n) {
     else return (n/(x*x-1)) * (x*P(x,n) - P(x,n-1));
 }
 
-double newton(int n, int i, double (*f)(double*, double), double (*df)(double*, double), double* args) {
+double newton(int n, int i, double (*f)(double*, double), double (*df)(double*, double), double* args){
 
 
     double xn_1, xn, tol;
@@ -153,14 +180,42 @@ double integrar_gauss_legendre(double (*f)(double*, double), double (*df)(double
     }
 }
 
-double integrar_gauss_chebyshev(double (*f)(double*, double), double* args, int numArgs, double a, double b, int n) {
-   double xi, fx;
-   fx = 0;
-
-   for (int i=1; i<=n; i++) {
-      xi = cos(((2*i-1)*M_PI)/(2*n));
-      fx += f(args, ((xi + 1)*(b-a))/2 + a) * pow((1-xi*xi), 1/2);
+double integrar_gauss_chebyshev(double (*f)(double*, double), double* args, double a, double b, int n)
+{
+	//This function implements the numerical integration of a function through
+	// the gauss_chebyshev quadrature.
+	//Input:
+		// double (*f)(double*, double): function to integrate. It must be called 
+		//   with first a string of arguments, and then the variable to integrate.
+		// double* args: arguments to pass to the integrated function.
+		// double a: "leftmost" (most negative) limit of the integration interval.
+		// double b: "rightmost" (most positive) limit of the integration interval.
+		// int n: Number of intervals to use for calculations.
+	//Output:
+		// Result of the numerical calculation of the integral of the desired 
+		// function, with the established arguments, over the given interval, using 
+		// 'n' intervals.
+	
+	if (n < 2)
+	{
+		fprintf(stderr, "ERROR: integrar_gauss_chebyshev necessita valor de 'n' major o igual a 2.\n\n");
+		return -1;
    }
+	
+	//Let's create two (double) variables:
+		// xi: will contain, on each iteration, the value of the corresponding chebyshev node.
+		// sumatori: accumulator for the summation in the for loop below. Initialised at 0.
+   double xi, sumatori=0;
 
-   return ((M_PI*(b-a))/(2*n)) * fx;
+	//Now, for each n
+   for (int i=1; i<=n; i++) {
+      xi = chebyshev_node(i,n);
+      sumatori += sqrt((1-pow(xi,2)))*f(args,((b-a)*xi)/2+(a+b)/2);
+   }
+   return (M_PI*(b-a))/(2*(n+1)) * sumatori;
+}
+
+double chebyshev_node(int i,int n)
+{
+	return cos(((2*i+1)*M_PI)/(2*n));
 }
