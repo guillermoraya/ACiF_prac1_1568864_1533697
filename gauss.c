@@ -4,11 +4,6 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "integracio.h"
-
-// TO-DO LIST:
-	// TODO: Get output in table format (waaaay more user-friendly)
-	// TODO: Implement timing of integration functions.
-	// TODO: Calculate errors of integration functions(?).
 	
 
 // N és la funció a integrar (funció de densitat de probabilitat de la 
@@ -35,7 +30,7 @@ double f_1(double x){
 }
 
 int main(int argc, char **argv){
-	int n,gl_n;
+	int n;
 	double mu,sigma,x;
 	
 	if((argc!=4)&&(argc!=5)&&(argc!=1))
@@ -86,20 +81,6 @@ int main(int argc, char **argv){
 		}
 	}
 	
-	gl_n = n;
-	while((gl_n!=2)&&(gl_n!=5)&&(gl_n!=10))
-	{
-		printf("El nombre d'intervals per a Gauss-Legendre ha de ser 2, 5 o 10.\n");
-		printf("El nombre d'intervals per a Gauss-Legendre assignat ara mateix és gl_n=%d.\n",gl_n);
-		printf("Si us plau, introduïu un valor acceptable: gl_n=");
-		scanf("%d", &gl_n);
-		if((gl_n!=2)&&(gl_n!=5)&&(gl_n!=10))
-		{
-			printf("Error: valor de 'gl_n' no vàlid.\n");
-		}
-		printf("\n");
-	}
-	
 	// We'll create the arguments array, called "args", in order to call our integration functions later.
 	// Said arguments will be, respectively, mu and sigma (as defined above).
 	double args[2]={mu,sigma};
@@ -107,11 +88,9 @@ int main(int argc, char **argv){
 	// In order to get a more user-friendly interface, let's print out the values of the parameters 
 	// (and their meanings, in catalan).
 	printf("PARAMETRES:\n");
-	printf("	Mitjana:                                      %.8f\n",mu);
-	printf("	Desviacio estandard:                          %.8f\n",sigma);
-	printf("	Valor d'x:                                    %.8f\n",x);
-	printf("	Nº de intervals per al metode Gauss-Legendre: %d\n",gl_n);
-	printf("	Nº de intervals altres metodes:               %d\n\n",n);
+	printf("	Mitjana:             %.8f\n",mu);
+	printf("	Desviacio estandard: %.8f\n",sigma);
+	printf("	Valor d'x:           %.8f\n",x);
 
 	// And now, for the main course:
 	// We'll print the results of calling our integration functions.
@@ -131,12 +110,10 @@ int main(int argc, char **argv){
 	printf("	-Metode trapezi compost      (n=%d): %.8f \n",n,0.5+integrar_trapezi_compost(N,args,mu,x,n));
 	printf("	-Metode Simpson compost      (n=%d): %.8f \n",n,0.5+integrar_simpson_compost(N,args,mu,x,n));
 	printf("	-Metode de Gauss-Txebixev    (n=%d): %.8f\n", n,0.5+integrar_gauss_chebyshev(N,args,mu,x,n));
-	
-	printf("Prints per a debugar Gauss-Legendre:\n");
 	int gl_n_values[3]={2,5,10};
 	for(int i=0;i<3;i++)
 	{
-		printf("	-Metode de Gauss-Legendre (gl_n=%d): %.8f \n", gl_n_values[i],0.5+integrar_gauss_legendre(N,args,mu,x,gl_n_values[i]));
+		printf("	-Metode de Gauss-Legendre          (n=%d): %.8f \n", gl_n_values[i],0.5+integrar_gauss_legendre(N,args,mu,x,gl_n_values[i]));
 	}
 	return 0;	
 }
