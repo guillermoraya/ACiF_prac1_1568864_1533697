@@ -110,8 +110,8 @@ int main(int argc, char **argv){
 	printf("	Mitjana:                                      %.8f\n",mu);
 	printf("	Desviacio estandard:                          %.8f\n",sigma);
 	printf("	Valor d'x:                                    %.8f\n",x);
-	printf("	Nº de intervals per al mètode Gauss-Legendre: %d\n",gl_n);
-	printf("	Nº de intervals altres mètodes:               %d\n\n",n);
+	printf("	Nº de intervals per al metode Gauss-Legendre: %d\n",gl_n);
+	printf("	Nº de intervals altres metodes:               %d\n\n",n);
 
 	// And now, for the main course:
 	// We'll print the results of calling our integration functions.
@@ -131,7 +131,6 @@ int main(int argc, char **argv){
 	printf("	-Metode trapezi compost      (n=%d): %.8f \n",n,0.5+integrar_trapezi_compost(N,args,mu,x,n));
 	printf("	-Metode Simpson compost      (n=%d): %.8f \n",n,0.5+integrar_simpson_compost(N,args,mu,x,n));
 	printf("	-Metode de Gauss-Txebixev    (n=%d): %.8f\n", n,0.5+integrar_gauss_chebyshev(N,args,mu,x,n));
-	printf("	-Metode de Gauss-Legendre (gl=%d): %.8f \n\n\n\n", gl_n,0.5+integrar_gauss_legendre(N,args,mu,x,gl_n));
 	
 	printf("Prints per a debugar Gauss-Legendre:\n");
 	int gl_n_values[3]={2,5,10};

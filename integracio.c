@@ -134,16 +134,16 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args,double
 		return -1;
 	}
 
-	double fx,mid_length, mid;
+	double fx,mid_length, mid, xi[n], wi[n];
 	fx = 0;
 	mid_length = (b-a)/2;
 	mid = (a+b)/2;
-	double xi[n];
-	double wi[n];
+	
 	if(n==2)
 	{
 		xi[0] = -1./sqrt(3.);
 		xi[1] = 1./sqrt(3.);
+
 		wi[0] = 1.;
 		wi[1] = 1.;
 	}
@@ -151,28 +151,50 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args,double
 	{
 		xi[0] = 0.;
 		wi[0] = 128./225.;
+
 		xi[1] = -(1./3.)*sqrt(5.-2.*sqrt(10./7.));
 		wi[1] = (322.+13.*sqrt(70.))/900.;
+
 		xi[2] = (1./3.)*sqrt(5.-2.*sqrt(10./7.)); 
 		wi[2] = wi[1];
+
 		xi[3] = -(1./3.)*sqrt(5.+2.*sqrt(10./7.));
 		wi[3] = (322.-13.*sqrt(70.))/900.;
+		
 		xi[4] = (1./3.)*sqrt(5.+2.*sqrt(10./7.));
 		wi[4] = wi[3]; 
 	}
 	else if (n==10)
 	{
-		xi[0] = 0.148874;
-		wi[0] = 0.295524255222263;
-		xi[1] = -0.148874;
-		wi[1] = 0.295524255222263;
-		xi[2] = 0.433395;
-		wi[2] = 0.269266832578992;
+		xi[0] = -0.973907;
+		wi[0] = 0.0666701555807740;
+		
+		xi[1] = -0.865063;
+		wi[1] = 0.149451725908325;
+
+		xi[2] = -0.67941;
+		wi[2] = 0.219086123824010;
+
 		xi[3] = -0.433395;
 		wi[3] = 0.269266832578992;
-		xi[4] = 0.67941;
-		wi[4] = 0.219086123824010;
-		n=5;
+
+		xi[4] = -0.148874;
+		wi[4] = 0.295524255222263;
+
+		xi[5] = 0.148874;
+		wi[5] = wi[4];
+
+		xi[6] = 0.433395;
+		wi[6] = wi[3];
+
+		xi[7] = 0.67941;
+		wi[7] = wi[2];
+
+		xi[8] = 0.865063;
+		wi[8] = wi[1];
+
+		xi[9] = 0.973907;
+		wi[9] = wi[0];
 	}
 
 	for (int i=0; i<n; i++)
