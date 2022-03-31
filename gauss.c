@@ -87,7 +87,7 @@ int main(int argc, char **argv){
 	
 	// In order to get a more user-friendly interface, let's print out the values of the parameters 
 	// (and their meanings, in catalan).
-	printf("PARAMETRES:\n");
+	printf("Parametres:\n\n");
 	printf("	Mitjana:             %.8f\n",mu);
 	printf("	Desviacio estandard: %.8f\n",sigma);
 	printf("	Valor d'x:           %.8f\n",x);
@@ -106,14 +106,9 @@ int main(int argc, char **argv){
 	// Since the cumulative probability of the mean is 0.5, the cumulative probabilty of x>mu
 	// Would be 0.5+Integral(probabilityDensityFunction(x)[from mu to x]).
 	// (see this assignment's documentation for more details).
-	printf("Calcul de la probabilitat acumulada:\n");
-	printf("	-Metode trapezi compost      (n=%d): %.8f \n",n,0.5+integrar_trapezi_compost(N,args,mu,x,n));
+	printf("\nCalcul de la probabilitat acumulada:\n");
+	printf("\n	-Metode trapezi compost      (n=%d): %.8f \n",n,0.5+integrar_trapezi_compost(N,args,mu,x,n));
 	printf("	-Metode Simpson compost      (n=%d): %.8f \n",n,0.5+integrar_simpson_compost(N,args,mu,x,n));
 	printf("	-Metode de Gauss-Txebixev    (n=%d): %.8f\n", n,0.5+integrar_gauss_chebyshev(N,args,mu,x,n));
-	int gl_n_values[3]={2,5,10};
-	for(int i=0;i<3;i++)
-	{
-		printf("	-Metode de Gauss-Legendre          (n=%d): %.8f \n", gl_n_values[i],0.5+integrar_gauss_legendre(N,args,mu,x,gl_n_values[i]));
-	}
-	return 0;	
+	printf("	-Metode de Gauss-Legendre    (n=%d): %.8f \n", n,0.5+integrar_gauss_legendre(N,args,mu,x,n));
 }

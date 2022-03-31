@@ -130,7 +130,7 @@ double integrar_gauss_legendre(double (*f)(double*, double), double* args,double
 {   
 	if(n != 2 && n != 5 && n != 10)
 	{
-		fprintf(stderr, "The n value is incorrect, it only accepts 2, 5 or 10. \n");
+		fprintf(stderr, "\nEl valor de n es incorrecte, el programa nomes accepta n = 2, 5 o 10. \n\n");
 		return -1;
 	}
 
