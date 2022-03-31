@@ -128,7 +128,7 @@ double weight(int n, double xi) {
 
 double integrar_gauss_legendre(double (*f)(double*, double), double* args,double a, double b, int n)
 {   
-	if(n != 2 && n != 5 && n != 10)
+	if(n != 2 || n != 5 || n != 10)
 	{
 		fprintf(stderr, "\nEl valor de n es incorrecte, el programa nomes accepta n = 2, 5 o 10. \n\n");
 		return -1;
